@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Watershed — The Channels of My Life</title>
+<style>
+  :root{
+    --bg:#faf7f1;
+    --ink:#2f2c27;
+    --muted:#6f6a60;
+    --line:#e3ddd1;
+    --card:#ffffff;
+
+    --source:#6b86a8;        /* the spring — soft slate blue */
+    --source-soft:#eaf0f7;
+    --built:#7fa389;         /* channels I built — soft green */
+    --built-soft:#eef4ef;
+    --march:#a85a52;         /* the March — muted red */
+    --march-soft:#f7ecea;
+    --onward:#b58c4a;        /* what flowed onward — soft gold */
+    --onward-soft:#f8f2e6;
+
+    --sans: "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+
+    --grid:0.95fr 1.15fr 0.9fr 1.15fr;
+    --gap:26px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px; line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{max-width:1280px;margin:0 auto;padding:36px 22px 64px}
+
+  header.top{text-align:center;margin-bottom:26px}
+  .kicker{
+    font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;margin-bottom:10px;
+  }
+  h1{font-size:clamp(1.9rem,4vw,2.7rem);margin:0 0 12px;font-weight:700;letter-spacing:-.01em}
+  .standfirst{max-width:62ch;margin:0 auto;color:#4c483f;font-size:1.02rem}
+  .standfirst strong{color:var(--ink)}
+
+  .note{
+    max-width:70ch;margin:22px auto 0;padding:14px 18px;
+    background:var(--source-soft);border-left:4px solid var(--source);
+    border-radius:0 8px 8px 0;font-size:.94rem;color:#3f4a58;
+  }
+
+  /* column headings */
+  .colheads{
+    display:grid;grid-template-columns:var(--grid);gap:var(--gap);
+    margin:34px 0 10px;align-items:end;
+  }
+  .ch{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+  .ch.s{color:var(--source)}
+  .ch.l{color:var(--built)}
+  .ch.m{text-align:center;color:var(--march)}
+  .ch.r{color:var(--onward);text-align:right}
+
+  /* the diagram */
+  .watershed{
+    position:relative;
+    display:grid;grid-template-columns:var(--grid);gap:var(--gap);
+    align-items:center;
+  }
+  #wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+  .col{display:flex;flex-direction:column;gap:14px;position:relative;z-index:1}
+  .col.mid{justify-content:center;align-items:center}
+
+  button.card{
+    font-family:inherit;text-align:left;width:100%;cursor:pointer;
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:15px 17px;display:block;
+    box-shadow:0 1px 2px rgba(47,44,39,.05);
+    transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+  }
+  button.card:hover,button.card:focus-visible{
+    transform:translateY(-2px);box-shadow:0 8px 20px rgba(47,44,39,.10);outline:none;
+  }
+  .card .era{font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--muted);display:block;margin-bottom:5px}
+  .card .name{font-size:1.05rem;font-weight:700;line-height:1.25;display:block;margin-bottom:5px}
+  .card .tag{font-size:.87rem;line-height:1.4;display:block}
+  .card .cue{font-size:.72rem;color:#9a948a;margin-top:9px;display:block}
+
+  /* left column = built */
+  .col.left .card{border-left:4px solid var(--built)}
+  .col.left .card .tag{color:#4d6b57}
+  .col.left .card:hover{border-color:var(--built)}
+  .col.left .card{text-align:right}
+  .col.left .era{text-align:right}
+
+  /* right column = onward */
+  .col.right .card{border-right:4px solid var(--onward)}
+  .col.right .card .tag{color:#8a6a2f}
+  .col.right .card:hover{border-color:var(--onward)}
+
+  /* source */
+  .source-wrap{display:flex;align-items:center;height:100%;position:relative;z-index:1}
+  button.source{
+    font-family:inherit;cursor:pointer;text-align:left;width:100%;
+    background:linear-gradient(180deg,#fff, var(--source-soft));
+    border:1px solid #cbd8e6;border-right:5px solid var(--source);
+    border-radius:14px;padding:22px 20px;
+    box-shadow:0 2px 10px rgba(60,80,110,.09);
+    transition:transform .16s ease, box-shadow .16s ease;
+  }
+  button.source:hover,button.source:focus-visible{transform:translateY(-2px);box-shadow:0 10px 26px rgba(60,80,110,.16);outline:none}
+  .source .badge{
+    display:inline-block;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+    font-weight:700;color:#fff;background:var(--source);
+    padding:3px 9px;border-radius:999px;margin-bottom:10px;
+  }
+  .source .name{font-size:1.22rem;font-weight:700;line-height:1.2;display:block;margin-bottom:6px}
+  .source .yrs{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#5d7691;font-weight:700;display:block;margin-bottom:8px}
+  .source .tag{font-size:.9rem;color:#41526a;line-height:1.45;display:block}
+  .source .cue{font-size:.72rem;color:#7d8ea3;margin-top:11px;display:block}
+
+  /* march node */
+  button.march{
+    font-family:inherit;cursor:pointer;
+    width:186px;height:186px;border-radius:50%;
+    background:var(--march-soft);border:2.5px solid var(--march);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:16px;
+    box-shadow:0 3px 16px rgba(168,90,82,.16);
+    transition:transform .16s ease, box-shadow .16s ease;
+  }
+  button.march:hover,button.march:focus-visible{transform:scale(1.035);box-shadow:0 10px 30px rgba(168,90,82,.24);outline:none}
+  .march .lbl{font-size:1.02rem;font-weight:800;letter-spacing:.03em;color:var(--march);line-height:1.15}
+  .march .yr{font-size:.78rem;color:#8d5b55;margin-top:6px}
+  .march .cue{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:#b08b86;margin-top:9px;line-height:1.4}
+
+  /* footer note */
+  .caption{margin-top:30px;color:var(--muted);font-size:.9rem;text-align:center}
+  .credit{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);
+          text-align:center;color:var(--muted);font-size:.82rem}
+
+  /* legend */
+  .legend{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin:26px 0 6px;font-size:.78rem;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+
+  /* modal */
+  .overlay{
+    position:fixed;inset:0;background:rgba(40,37,32,.5);
+    display:none;align-items:center;justify-content:center;padding:20px;z-index:50;
+  }
+  .overlay.on{display:flex}
+  .modal{
+    background:var(--card);border-radius:16px;max-width:640px;width:100%;
+    max-height:86vh;overflow:auto;padding:30px 32px 28px;position:relative;
+    box-shadow:0 24px 60px rgba(0,0,0,.28);
+  }
+  .modal .side{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+  .modal h2{margin:0 0 6px;font-size:1.5rem;line-height:1.2}
+  .modal .era2{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+  .modal p{margin:0 0 14px;color:#413d36}
+  .modal .pull{
+    border-left:4px solid var(--line);padding:2px 0 2px 16px;margin:16px 0;
+    font-style:italic;color:#544f46;
+  }
+  .close{
+    position:absolute;top:14px;right:16px;border:none;background:none;
+    font-size:1.5rem;line-height:1;cursor:pointer;color:#9a948a;padding:4px 8px;border-radius:8px;
+  }
+  .close:hover{background:#f1ede5;color:var(--ink)}
+
+  @media (max-width:1020px){
+    :root{--grid:1fr;--gap:0}
+    #wires{display:none}
+    .colheads{display:none}
+    .watershed{display:block}
+    .col,.source-wrap{display:block;margin-bottom:14px}
+    .col.left .card,.col.left .era{text-align:left}
+    .col.mid{display:flex;justify-content:center;margin:20px 0}
+    .grouplabel{
+      font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+      margin:26px 0 10px;
+    }
+    .grouplabel.s{color:var(--source)} .grouplabel.l{color:var(--built)} .grouplabel.r{color:var(--onward)}
+  }
+  @media (min-width:1021px){ .grouplabel{display:none} }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="top">
+    <div class="kicker">The Channels of My Life</div>
+    <h1>The Watershed</h1>
+    <p class="standfirst">Without knowing the word, I had been building channels all my life. Each one fed the next — and all of them converged on the March, which opened onto everything since. <strong>But they had a source.</strong></p>
+    <div class="note">
+      <strong>What is new in this version.</strong> The first channel was not one I built. It was Quaker faith — entered as a boy at Scattergood Friends School, and still open fifty-seven years later. It is the spring this whole watershed runs from. It gave me the disposition to build channels and told me nothing whatever about where to build them.
+    </div>
+  </header>
+
+  <div class="legend">
+    <span><i class="dot" style="background:var(--source)"></i> The source</span>
+    <span><i class="dot" style="background:var(--built)"></i> The channels I built</span>
+    <span><i class="dot" style="background:var(--march)"></i> The channel built on purpose</span>
+    <span><i class="dot" style="background:var(--onward)"></i> What flowed onward</span>
+  </div>
+
+  <div class="colheads">
+    <div class="ch s">The source ↴</div>
+    <div class="ch l">The channels I built →</div>
+    <div class="ch m">↓</div>
+    <div class="ch r">→ What flowed onward</div>
+  </div>
+
+  <div class="watershed" id="watershed">
+    <svg id="wires" preserveAspectRatio="none"></svg>
+
+    <div class="source-wrap">
+      <div class="grouplabel s">The source</div>
+      <button class="source" id="sourceNode" data-key="source">
+        <span class="badge">The first channel</span>
+        <span class="name">The Quaker Spiritual Channel</span>
+        <span class="yrs">1966 — still open</span>
+        <span class="tag">Scattergood Friends School. Meeting for worship at Hickory Grove. A journal begun in 1969 and never stopped. The one channel I did not build — it was built around me.</span>
+        <span class="cue">Read this channel →</span>
+      </button>
+    </div>
+
+    <div class="col left" id="leftCol">
+      <div class="grouplabel l">The channels I built</div>
+    </div>
+
+    <div class="col mid">
+      <button class="march" id="marchNode" data-key="march">
+        <span class="lbl">THE MARCH</span>
+        <span class="yr">Sept 1–8, 2018</span>
+        <span class="cue">The channel built on purpose</span>
+      </button>
+    </div>
+
+    <div class="col right" id="rightCol">
+      <div class="grouplabel r">What flowed onward</div>
+    </div>
+  </div>
+
+  <p class="caption">On a wider screen, the lines show the source feeding each channel, every channel feeding the March, and the March opening onto what followed. Select any node to read its story.</p>
+
+  <div class="credit">
+    The Channels of My Life · First Nation-Farmer Climate Unity March · Jeff Kisling
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <button class="close" id="closeBtn" aria-label="Close">✕</button>
+    <div class="side" id="mSide"></div>
+    <h2 id="mTitle"></h2>
+    <div class="era2" id="mEra"></div>
+    <div id="mBody"></div>
+  </div>
+</div>
+
+<script>
+const DATA = {
+  source: {
+    side:"The source", sideColor:"var(--source)",
+    title:"The Quaker Spiritual Channel", era:"1966 — still open · fifty-seven years",
+    body:[
+      "Four years of meeting for worship in the Hickory Grove meetinghouse on the Scattergood campus, at the age when a person is deciding what kind of life is available. A journal begun in 1969 and still kept. Membership at North Meadow, then Bear Creek.",
+      "It is the only channel here that was built by named people and opens onto what is not a person. Every other one has a human being at both ends. That doubleness is what let the others flow out of it.",
+      "It is also the longest by far — six times the length of the next — and the only one that has never closed.",
+      "<span class='pull'>And the limit has to travel with the claim. It gave me the disposition to build channels and no knowledge at all of where to build them. It ran through a Quaker school two miles from Grace Yellowhair's unmarked grave for four years and told me nothing about her. It went where Sikowis Nobiss pointed. It could not have found her.</span>"
+    ]
+  },
+  march: {
+    side:"The channel built on purpose", sideColor:"var(--march)",
+    title:"The March", era:"September 1–8, 2018 · ninety-four miles",
+    body:[
+      "Des Moines to Fort Dodge along the route of the Dakota Access Pipeline. Eight days and nights, about thirty Native and non-Native people. The only event in this watershed designed as a channel-opening — the extended shared time was the whole intention.",
+      "Early on I told Matthew Lone Bear that I knew of Quaker involvement in the forced assimilation of Native children, and that I was very sorry. He nodded, and we walked on. Hours later he came back and said he had a story to tell: his mother had telephoned him, very upset, after something took her straight back to the childhood stories she had heard of children taken to the residential schools.",
+      "<span class='pull'>I had read what I could find about forced assimilation before the March. The information was identical before and after. What changed was that a relationship had begun, and had lasted long enough for the person holding the knowledge to decide to hand it over.</span>",
+      "I was in the room to hear the invitation at all because I had been attending yearly meeting for decades. The Indigenous channel entered my life through the Quaker one."
+    ]
+  }
+};
+
+const BUILT = [
+  { key:"draft", era:"c. 1969", name:"Turning In My Draft Card",
+    tag:"The first thing the source channel produced",
+    body:[
+      "Conscientious objector status had already been applied for and granted — as a backup. I walked to the draft board at Marshalltown on a cold winter day, shortly after my eighteenth birthday and while still a student at Scattergood. I stood out in the cold for a while, trying to work up the will to go inside.",
+      "The clerk was very kind, and asked whether I was sure, and whether I wasn't still in high school. My parents were so distressed that I wrote and asked for the card back, and the board returned it. Months later, with my parents no longer standing in the way, I turned it in a second time.",
+      "<span class='pull'>In 1972, from Indianapolis, I wrote to Bear Creek Monthly Meeting enclosing a statement of non-cooperation with the Selective Service System: “Again, I tried very hard to follow the leading of the inner light.”</span>",
+      "The safe course was not merely available. It was in my hand, in writing."
+    ]},
+  { key:"fvsm", era:"1970s", name:"Friends Volunteer Service Mission",
+    tag:"The first channel — a camera, a bicycle, a 4-H club",
+    body:[
+      "Two years living and working in inner-city Indianapolis, straight out of Earlham. A 4-H club. Trips around town to take photographs, developed in a bathroom darkroom. Soccer and wall-ball with the neighborhood's children, because there were no programs for young people.",
+      "The tradition had built the route before I needed it — Friends have always paired refusal with service. The interesting question is not why a twenty-two-year-old wanted to go. It is that such a thing was available, expected, housed, and understood as a normal thing for a young Friend to do.",
+      "<span class='pull'>Presence is residential, not visitational. You do not commute to a channel.</span>"
+    ]},
+  { key:"kheprw", era:"2010s", name:"The Kheprw Institute",
+    tag:"The channel that taught listening",
+    body:[
+      "An environmental day of action at a place I had never heard of — a converted convenience store full of Black teenagers running an aquaponics system. An email that got no reply. A second email two weeks later: a leading that would not let go. A bicycle ride on a dark rainy night.",
+      "Then, instead of the conversation about programming languages I had prepared for: “Tell us about yourself.” Then, “Tell us some more.” Then again. I finally realized it was an interview, and that the usual surface information was not going to be adequate.",
+      "What turned the evening was that I put down my credentials and said what I actually believed, to each person in the room in turn — that Quakers believe there is that of God in everyone, and that includes you, and you.",
+      "<span class='pull'>Ten years later, at my mother's memorial, Miss Fair — who had never met her — said of me: “he listened.”</span>"
+    ]},
+  { key:"qscm", era:"2010s", name:"Quaker Social Change Ministry",
+    tag:"Widening a channel from person to meeting",
+    body:[
+      "The American Friends Service Committee program that North Meadow Circle of Friends used to build its relationship with the Kheprw Institute — the only formal methodology in any of this work.",
+      "Its core concept is the word the whole framework most needs: <strong>accompaniment</strong> — taking direction from the community, which requires deep listening and refraining from offering suggestions until input is requested.",
+      "<span class='pull'>The tradition supplied the disposition, and then supplied the method.</span>"
+    ]},
+  { key:"prairie", era:"decades", name:"Prairie Awakening — Bear Creek",
+    tag:"The inherited channel",
+    body:[
+      "An Indigenous-led ceremony held a few miles from the Bear Creek meetinghouse, which the meeting has supported for many years.",
+      "One couple in the meeting helped plan it, year after year, and developed deep relationships with the Indigenous people involved. Many other Friends attended the same ceremony for just as long and developed none.",
+      "<span class='pull'>The same event: a channel for two people, and a spectacle for everyone else. Attendance is not the variable.</span>"
+    ]},
+  { key:"wetsuweten", era:"2020", name:"The Wet'suwet'en Work",
+    tag:"The channel that crossed a continent — and delivered Ronnie",
+    body:[
+      "Solidarity work that reached from Iowa to northern British Columbia — and, in the way channels do, returned something unlooked for: it is how Ronnie James came into this work.",
+      "<span class='pull'>This panel is the one place in the watershed where the words are mine only in outline. Replace it with your own account.</span>"
+    ]},
+  { key:"dmma", era:"2020 — now", name:"Ronnie James & Des Moines Mutual Aid",
+    tag:"The channel as weekly practice",
+    body:[
+      "Three years working alongside Ronnie James. Food available to anyone, no eligibility rules, no sorting of people into deserving and undeserving — which is “that of God in everyone” in operational dress. A theology that refuses to rank people produces a distribution system that refuses to rank people.",
+      "Asked why more people are not aware of the fundamental injustices of the capitalist system, Ronnie answered: because they personally have not been adversely affected by capitalism yet.",
+      "<span class='pull'>The word carrying the weight is <em>yet</em>. That sentence has organized everything I have written about collapse since.</span>"
+    ]}
+];
+
+const ONWARD = [
+  { key:"grassley", era:"", name:"Grassley → Laws", tag:"Testimony carried into law",
+    body:["What was learned on the road did not stay on the road. It went into rooms where laws are made."] },
+  { key:"landback", era:"2018 —", name:"LANDBACK", tag:"An assignment accepted",
+    body:[
+      "After the March I asked Sikowis Nobiss what I could do. The answer was an assignment: learn and teach LANDBACK.",
+      "<span class='pull'>A channel that asks nothing of you is not yet a channel. That assignment produced a blog and shaped the years since.</span>"
+    ]},
+  { key:"buffalo", era:"", name:"Buffalo Rebellion", tag:"The March's direct descendant",
+    body:["A working coalition of Native and non-Native people with a task — which is the only kind of “we” that has ever produced anything in my story."] },
+  { key:"rematriation", era:"", name:"ReMatriation", tag:"Returning the Sacred to the Mother",
+    body:["Sikowis Nobiss's framing, and hers to give. Receivable, never assumable."] },
+  { key:"hub", era:"2025 —", name:"Urban Resilience Hub", tag:"An acre in Iowa City",
+    body:[
+      "A 1.05-acre site at Maiden Lane and East Benton Street, seven adjoining lots, re-acquired by the Great Plains Action Society after the plan came to Sikowis Nobiss in a dream. One of only three Indigenous-owned properties in Iowa.",
+      "Work weeks since December 2025: digging, moving soil, gutting the Healing Justice House in sub-freezing temperatures.",
+      "<span class='pull'>I was not there to lead or advise. I was there because the land asked for work, and I was part of the community doing it.</span>",
+      "During a break in April one of the young people said, slowly, as if discovering it in real time: “The future will need places like… this Hub, and people like… us, to do it.”"
+    ]}
+];
+
+/* ---------- build the cards ---------- */
+function card(item, side){
+  const b = document.createElement('button');
+  b.className = 'card';
+  b.dataset.key = item.key;
+  b.innerHTML =
+    (item.era ? `<span class="era">${item.era}</span>` : '') +
+    `<span class="name">${item.name}</span>` +
+    `<span class="tag">${item.tag}</span>` +
+    `<span class="cue">Read this channel →</span>`;
+  DATA[item.key] = {
+    side: side === 'left' ? 'The channels I built' : 'What flowed onward',
+    sideColor: side === 'left' ? 'var(--built)' : 'var(--onward)',
+    title: item.name, era: item.era, body: item.body
+  };
+  return b;
+}
+const leftCol = document.getElementById('leftCol');
+const rightCol = document.getElementById('rightCol');
+BUILT.forEach(i => leftCol.appendChild(card(i,'left')));
+ONWARD.forEach(i => rightCol.appendChild(card(i,'right')));
+
+/* ---------- draw the connecting lines ---------- */
+const svg = document.getElementById('wires');
+const NS = 'http://www.w3.org/2000/svg';
+
+function centerRight(el, box){ const r = el.getBoundingClientRect();
+  return {x: r.right - box.left, y: r.top - box.top + r.height/2}; }
+function centerLeft(el, box){ const r = el.getBoundingClientRect();
+  return {x: r.left - box.left, y: r.top - box.top + r.height/2}; }
+
+function curve(a, b, color, width, opacity){
+  const p = document.createElementNS(NS,'path');
+  const dx = Math.max(30, (b.x - a.x) * 0.5);
+  p.setAttribute('d', `M ${a.x} ${a.y} C ${a.x+dx} ${a.y}, ${b.x-dx} ${b.y}, ${b.x} ${b.y}`);
+  p.setAttribute('fill','none');
+  p.setAttribute('stroke',color);
+  p.setAttribute('stroke-width',width);
+  p.setAttribute('stroke-opacity',opacity);
+  p.setAttribute('stroke-linecap','round');
+  svg.appendChild(p);
+}
+
+function draw(){
+  const wrap = document.getElementById('watershed');
+  if (window.innerWidth <= 1020) { svg.innerHTML=''; return; }
+  const box = wrap.getBoundingClientRect();
+  svg.setAttribute('viewBox', `0 0 ${box.width} ${box.height}`);
+  svg.setAttribute('width', box.width);
+  svg.setAttribute('height', box.height);
+  svg.innerHTML = '';
+
+  const src   = document.getElementById('sourceNode');
+  const march = document.getElementById('marchNode');
+  const lefts = [...leftCol.querySelectorAll('button.card')];
+  const rights= [...rightCol.querySelectorAll('button.card')];
+
+  // source → each built channel  (drawn first, so they sit behind)
+  const s = centerRight(src, box);
+  lefts.forEach(el => curve(s, centerLeft(el, box), 'var(--source)', 2.4, .55));
+
+  // each built channel → the March
+  const m = centerLeft(march, box);
+  lefts.forEach(el => curve(centerRight(el, box), m, 'var(--built)', 2, .75));
+
+  // the March → each onward
+  const mr = centerRight(march, box);
+  rights.forEach(el => curve(mr, centerLeft(el, box), 'var(--onward)', 2, .75));
+}
+
+/* ---------- modal ---------- */
+const overlay = document.getElementById('overlay');
+let lastFocus = null;
+
+function open(key){
+  const d = DATA[key]; if(!d) return;
+  lastFocus = document.activeElement;
+  const side = document.getElementById('mSide');
+  side.textContent = d.side; side.style.color = d.sideColor;
+  document.getElementById('mTitle').textContent = d.title;
+  const era = document.getElementById('mEra');
+  era.textContent = d.era || ''; era.style.display = d.era ? 'block' : 'none';
+  document.getElementById('mBody').innerHTML = d.body.map(p => `<p>${p}</p>`).join('');
+  overlay.classList.add('on');
+  document.getElementById('closeBtn').focus();
+}
+function close(){
+  overlay.classList.remove('on');
+  if (lastFocus) lastFocus.focus();
+}
+
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-key]');
+  if (t) { open(t.dataset.key); return; }
+  if (e.target === overlay) close();
+  if (e.target.id === 'closeBtn' || e.target.closest('#closeBtn')) close();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+window.addEventListener('load', draw);
+window.addEventListener('resize', draw);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+setTimeout(draw, 120);
+</script>
+</body>
+</html>
